@@ -77,6 +77,9 @@ class Solution {
 ```
 
 # Implementation 2 : BFS (Using visited array to store level information)
+
+If visited[i] is not equal to -1 it means the vertex is already visited at level visited[i].
+
 ```java
 class Solution {
     public boolean isBipartite(int[][] graph) {
