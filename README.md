@@ -18,6 +18,60 @@ A graph is bipartite if the nodes can be partitioned into two independent sets A
 ```java
 class Solution {
     public boolean isBipartite(int[][] graph) {
+        int n = graph.length;
+        Map<Integer,List<Integer>> map = new HashMap<>();
+        for(int i = 0; i < n; i++) {
+            map.putIfAbsent(i, new ArrayList<Integer>());
+            for(int neighbor : graph[i]) {
+                map.get(i).add(neighbor);
+            }
+        }
+        
+        Set<Integer> visited = new HashSet<>();
+        Map<Integer,Integer> level = new HashMap<>();
+        for(int i = 0; i < n; i++) {
+         if(!visited.contains(i)) {
+             boolean result = isBipartite(i,map,visited,level);
+             if(result == false)
+                 return false;
+         }   
+        }
+        return true;
+    }
+    
+    private boolean isBipartite(int vertex, Map<Integer,List<Integer>> map, Set<Integer> visited, Map<Integer,Integer> level) {
+        Queue<int[]> q = new ArrayDeque<>();
+        q.add(new int[]{vertex,0});
+        level.put(vertex,0);
+        
+        while(!q.isEmpty()) {
+            int[] node = q.remove();
+            if(visited.contains(node[0]) && level.get(node[0]) != node[1])
+                return false;
+            if(!visited.contains(node[0])) {
+                visited.add(node[0]);
+                level.put(node[0], node[1]);
+            }
+            // add to queue unvisited neighbors
+            List<Integer> neighbors = map.get(node[0]);
+            if(neighbors.size() != 0) {
+                for(int neighbor : neighbors) {
+                    if(!visited.contains(neighbor)) {
+                        q.add(new int[]{neighbor, node[1] + 1});
+                    }
+                }
+            }
+        }
+        return true;
+    }
+}
+
+```
+
+# Implementation 2 : BFS
+```java
+class Solution {
+    public boolean isBipartite(int[][] graph) {
         int vertices = graph.length;
         int[] visited = new int[vertices];
         Arrays.fill(visited, -1);
