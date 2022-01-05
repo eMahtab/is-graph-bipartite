@@ -20,7 +20,7 @@ Add unvisited neighbors to the queue, the neighbors will be visited at `level+1`
 
 If we found any node in the queue which is already visited but whose level is different than its already visited level, then it means the graph has a odd length cycle and its definitely not a bipartite graph. 
 
-Since the graph can have disconnected components we will have to check all the components, if any component have odd length cycle, then the graoph is not a bipartite graph.
+**Since the graph can have disconnected components we will have to check all the components, if any component have odd length cycle, then the graph is not a bipartite graph.**
 
 # Implementation 1 : BFS
 ```java
