@@ -14,7 +14,11 @@ A graph is bipartite if the nodes can be partitioned into two independent sets A
 ![Is Graph Bipartite](example.JPG?raw=true)
 
 ## Approach :
-Start BFS from vertex 0, add unvisited neighbors to the queue, the neighbors will be visited at `level+1` , if we found any node in the queue which is already visited but whose level is different than its already visited level, then it means the graph has a odd length cycle and its definitely not a bipartite graph. 
+Start BFS from vertex 0, level of vertex 0 will be 0.
+
+Add unvisited neighbors to the queue, the neighbors will be visited at `level+1`.
+
+If we found any node in the queue which is already visited but whose level is different than its already visited level, then it means the graph has a odd length cycle and its definitely not a bipartite graph. 
 
 # Implementation 1 : BFS
 ```java
