@@ -76,7 +76,7 @@ class Solution {
 
 ```
 
-# Implementation 2 : BFS
+# Implementation 2 : BFS (Using visited array to store level information)
 ```java
 class Solution {
     public boolean isBipartite(int[][] graph) {
