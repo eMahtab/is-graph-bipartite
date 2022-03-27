@@ -27,19 +27,12 @@ If we found any node in the queue which is already visited but whose level is di
 class Solution {
     public boolean isBipartite(int[][] graph) {
         int n = graph.length;
-        Map<Integer,List<Integer>> map = new HashMap<>();
-        for(int i = 0; i < n; i++) {
-            map.putIfAbsent(i, new ArrayList<Integer>());
-            for(int neighbor : graph[i]) {
-                map.get(i).add(neighbor);
-            }
-        }
-        
+        int[] level = new int[n];
+        Arrays.fill(level, -1);
         Set<Integer> visited = new HashSet<>();
-        Map<Integer,Integer> level = new HashMap<>();
         for(int i = 0; i < n; i++) {
          if(!visited.contains(i)) {
-             boolean result = isBipartite(i,map,visited,level);
+             boolean result = isBipartite(i, graph, level, visited);
              if(result == false)
                  return false;
          }   
@@ -47,27 +40,25 @@ class Solution {
         return true;
     }
     
-    private boolean isBipartite(int vertex, Map<Integer,List<Integer>> map, Set<Integer> visited, Map<Integer,Integer> level) {
+    private boolean isBipartite(int vertex, int[][] graph, int[] level, Set<Integer> visited) {
         Queue<int[]> q = new ArrayDeque<>();
         q.add(new int[]{vertex,0});
-        level.put(vertex,0);
+        level[vertex] = 0;
         
         while(!q.isEmpty()) {
             int[] node = q.remove();
-            if(visited.contains(node[0]) && level.get(node[0]) != node[1])
+            if(visited.contains(node[0]) && level[node[0]] != node[1])
                 return false;
             if(!visited.contains(node[0])) {
                 visited.add(node[0]);
-                level.put(node[0], node[1]);
+                level[node[0]] = node[1];
             }
             // add to queue unvisited neighbors
-            List<Integer> neighbors = map.get(node[0]);
-            if(neighbors.size() != 0) {
-                for(int neighbor : neighbors) {
+            int[] neighbors = graph[node[0]];
+            for(int neighbor : neighbors) {
                     if(!visited.contains(neighbor)) {
                         q.add(new int[]{neighbor, node[1] + 1});
                     }
-                }
             }
         }
         return true;
