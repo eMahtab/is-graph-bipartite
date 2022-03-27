@@ -74,38 +74,38 @@ If visited[i] is not equal to -1 it means the vertex is already visited at level
 ```java
 class Solution {
     public boolean isBipartite(int[][] graph) {
-        int vertices = graph.length;
-        int[] visited = new int[vertices];
-        Arrays.fill(visited, -1);
+        int n = graph.length;
+        int[] level = new int[n];
+        Arrays.fill(level, -1);
         
-        for(int vertex = 0; vertex < vertices; vertex++) {
-            if(visited[vertex] == -1) {
-                boolean isBipartite = isBipartite(graph, vertex, visited);
-                if(!isBipartite)
-                    return false;
-            }
+        for(int i = 0; i < n; i++) {
+         if(level[i] == -1) {
+             boolean result = isBipartite(i, graph, level);
+             if(result == false)
+                 return false;
+         }   
         }
         return true;
     }
     
-    private boolean isBipartite(int[][] graph, int vertex, int[] visited) {
+    private boolean isBipartite(int vertex, int[][] graph, int[] level) {
         Queue<int[]> q = new ArrayDeque<>();
-        q.add(new int[]{vertex, 0});
+        q.add(new int[]{vertex,0});
+        level[vertex] = 0;
         
         while(!q.isEmpty()) {
             int[] node = q.remove();
-            int v = node[0];
-            if(visited[v] != -1) {
-                if(visited[v] != node[1])
-                    return false;
-            } else {
-                visited[v] = node[1];
+            if(level[node[0]] != -1 && level[node[0]] != node[1])
+                return false;
+            if(level[node[0]] == -1) {
+                level[node[0]] = node[1];
             }
-            
-            for(int neighbor : graph[v]) {
-                if(visited[neighbor] == -1) {
-                    q.add(new int[]{neighbor, node[1] + 1});
-                }
+            // add to queue unvisited neighbors
+            int[] neighbors = graph[node[0]];
+            for(int neighbor : neighbors) {
+                    if(level[neighbor] == -1) {
+                        q.add(new int[]{neighbor, node[1] + 1});
+                    }
             }
         }
         return true;
