@@ -67,7 +67,7 @@ class Solution {
 
 ```
 
-# Implementation 2 : BFS (Using visited array to store level information)
+### Implementation 2 : BFS (using only level array, we can get both, level of a vertex and whether a vertex was already visited or not)
 
 If visited[i] is not equal to -1 it means the vertex is already visited at level visited[i].
 
